@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mockoon
+  name: mockoon-deployment
   namespace: mockoon
 spec:
   replicas: 1
@@ -14,7 +14,7 @@ spec:
         app: mockoon
     spec:
       containers:
-        - name: mockoon
+        - name: mockoon-ctr
           image: mockoon/cli:latest
           args: ["-d", "/data/data.json"]
           ports:
@@ -27,4 +27,3 @@ spec:
           configMap:
             name: mockoon-data
       restartPolicy: Always
-

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mockoon:
+    image: mockoon/cli:latest
+    container_name: mockoon-container
+    command: ["-d", "/data/data.json"]
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./mockoon-data:/data
+    restart: unless-stopped
+
+  go-app:
+    image: arristi/go-mockoon
+    container_name: go-app-container
+    ports:
+      - "8090:8090"
+    environment:
+      MOCKURL: "http://mockoon:3000/users"
+    depends_on:
+      - mockoon
+    restart: unless-stopped
