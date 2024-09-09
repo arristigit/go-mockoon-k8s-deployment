@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mockoon-deployment
+  namespace: mockoon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mockoon
+  template:
+    metadata:
+      labels:
+        app: mockoon
+    spec:
+      containers:
+        - name: mockoon-ctr
+          image: mockoon/cli:latest
+          args: ["-d", "/data/data.json"]
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: data
+              mountPath: "/data"
+      volumes:
+        - name: data
+          configMap:
+            name: mockoon-data
+      restartPolicy: Always

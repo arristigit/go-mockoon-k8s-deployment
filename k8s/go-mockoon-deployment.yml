@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-mockoon-deployment
+  namespace: mockoon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-mockoon
+  template:
+    metadata:
+      labels:
+        app: go-mockoon
+    spec:
+      containers:
+        - name: go-mockoon-ctr
+          image: arristi/go-mockoon
+          env:
+            - name: MOCKURL
+              value: http://65.0.203.189:30716/users
+          ports:
+            - containerPort: 8090
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8090
+      restartPolicy: Always

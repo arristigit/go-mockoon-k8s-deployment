@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-mockoon
+  namespace: mockoon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-mockoon
+  template:
+    metadata:
+      labels:
+        app: go-mockoon
+    spec:
+      containers:
+        - name: go-mockoon
+          image: arristi/go-mockoon
+          env:
+            - name: MOCKURL
+              value: http://mockoon.mockoon.svc.cluster.local/users
+          ports:
+            - containerPort: 8090
+      restartPolicy: Always
+
